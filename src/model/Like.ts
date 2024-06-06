@@ -1,10 +1,16 @@
 import {v4 as uuid} from "uuid";
 
 class Like {
-  id: string;
+  private id: string;
 
   constructor() {
     this.id = uuid();
+  }
+
+  getLike() {
+    return {
+      id: this.id,
+    };
   }
 }
 

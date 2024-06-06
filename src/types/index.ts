@@ -1,5 +1,5 @@
 import UserType from "./UserType";
 import TweetType from "./TweetType";
-import FollowerType from "./FollowerType";
+import LikeType from "./LikeType";
 
-export {UserType, TweetType, FollowerType};
+export {UserType, TweetType, LikeType};

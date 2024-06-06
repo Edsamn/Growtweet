@@ -1,3 +1,3 @@
-import {Like} from "../model";
+import {LikeType} from "../types";
 
-export const like: Like[] = [];
+export const like: LikeType[] = [];
