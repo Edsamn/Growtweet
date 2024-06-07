@@ -1,3 +1,3 @@
-import {TweetType} from "../types";
+import {Tweet} from "../model";
 
-export const tweets: TweetType[] = [];
+export const tweets: Tweet[] = [];

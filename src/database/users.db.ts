@@ -1,3 +1,3 @@
-import {UserType} from "../types";
+import {User} from "../model";
 
-export const user: UserType[] = [];
+export const user: User[] = [];

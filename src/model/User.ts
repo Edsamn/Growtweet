@@ -1,13 +1,17 @@
 import {v4 as uuid} from "uuid";
 import {UserType} from "../types";
 import Tweet from "./Tweet";
+import {tweets} from "../database/tweets.db";
 
 class User {
   private id: string;
-  public name: string;
-  public username: string;
+  name: string;
+  username: string;
   private email: string;
   private password: string;
+  followers: User[];
+  userTweets: Tweet[];
+  following: User[];
 
   constructor(data: UserType) {
     this.id = uuid();
@@ -15,6 +19,9 @@ class User {
     this.username = data.username;
     this.email = data.email;
     this.password = data.password;
+    this.followers = [];
+    this.userTweets = [];
+    this.following = [];
   }
 
   getUser() {
@@ -24,6 +31,9 @@ class User {
       username: this.username,
       email: this.email,
       password: this.maskPassword(),
+      followers: this.followers,
+      userTweets: this.userTweets,
+      following: this.following,
     };
   }
 
@@ -45,13 +55,51 @@ class User {
     }
   }
 
-  sendTweet(tweet: Tweet) {}
+  createTweet(tweet: Tweet) {
+    this.userTweets.push(tweet);
+  }
 
-  follow(user: User) {}
+  sendTweet(tweet: Tweet) {
+    tweets.push(tweet);
+  }
 
-  showFeed() {}
+  follow(user: User) {
+    if (this.getUser().name === user.name) {
+      return "O usuário não pode seguir a si mesmo.";
+    } else {
+      this.following.push(user);
+      return "Você agora está seguindo este usuário.";
+    }
+  }
 
-  showTweets() {}
+  showFeed() {
+    const myTweets = this.showTweets();
+
+    if (this.following.length > 0) {
+      this.following.map((followingTweet) => {
+        followingTweet.showTweets();
+        // userTweets.map((tweet) =>
+        //   console.log(`
+        // @${this.username}: ${tweet.content}
+        //     ${tweet.getTweet().likes} likes
+        //         >${tweet.showReplies()}
+        // `)
+        // );
+      });
+    }
+
+    return;
+  }
+
+  showTweets() {
+    return this.userTweets.map((userTweet) => {
+      console.log(`
+        @${this.username}: ${userTweet.content}
+            ${userTweet.getTweet().likes} likes
+                >${userTweet.showReplies()}
+        `);
+    });
+  }
 }
 
 export default User;
