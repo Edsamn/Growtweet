@@ -2,6 +2,7 @@ import {v4 as uuid} from "uuid";
 import {UserType} from "../types";
 import Tweet from "./Tweet";
 import {tweets} from "../database/tweets.db";
+import {users} from "../database/users.db";
 
 class User {
   private id: string;
@@ -10,7 +11,6 @@ class User {
   private email: string;
   private password: string;
   followers: User[];
-  userTweets: Tweet[];
   following: User[];
 
   constructor(data: UserType) {
@@ -20,7 +20,6 @@ class User {
     this.email = data.email;
     this.password = data.password;
     this.followers = [];
-    this.userTweets = [];
     this.following = [];
   }
 
@@ -32,9 +31,19 @@ class User {
       email: this.email,
       password: this.maskPassword(),
       followers: this.followers,
-      userTweets: this.userTweets,
       following: this.following,
     };
+  }
+
+  createUser(user: User) {
+    const verifyUser = users.find((user) => user.email === user.getUser().email);
+
+    if (verifyUser?.email === user.email) {
+      console.log(`O usuário já existe.`);
+    } else {
+      users.push(user);
+      console.log(`Usuário criado com sucesso.`);
+    }
   }
 
   private maskPassword() {
@@ -55,48 +64,28 @@ class User {
     }
   }
 
-  createTweet(tweet: Tweet) {
-    this.userTweets.push(tweet);
-  }
-
   sendTweet(tweet: Tweet) {
     tweets.push(tweet);
   }
 
   follow(user: User) {
-    if (this.getUser().name === user.name) {
-      return "O usuário não pode seguir a si mesmo.";
+    if (this.getUser().username === user.username) {
+      console.log("O usuário não pode seguir a si mesmo.");
     } else {
       this.following.push(user);
-      return "Você agora está seguindo este usuário.";
+      console.log("Você agora está seguindo este usuário.");
     }
   }
 
-  showFeed() {
-    const myTweets = this.showTweets();
-
-    if (this.following.length > 0) {
-      this.following.map((followingTweet) => {
-        followingTweet.showTweets();
-        // userTweets.map((tweet) =>
-        //   console.log(`
-        // @${this.username}: ${tweet.content}
-        //     ${tweet.getTweet().likes} likes
-        //         >${tweet.showReplies()}
-        // `)
-        // );
-      });
-    }
-
-    return;
-  }
+  showFeed() {}
 
   showTweets() {
-    return this.userTweets.map((userTweet) => {
+    const userTweets = tweets.filter((tweet) => tweet.getTweet().user.username === this.username);
+    userTweets.map((userTweet) => {
       console.log(`
-        @${this.username}: ${userTweet.content}
-            ${userTweet.getTweet().likes} likes
-                >${userTweet.showReplies()}
+        @${userTweet.user.username}: ${userTweet.content}
+              ${userTweet.likes.length}
+              >${userTweet.replies}
         `);
     });
   }

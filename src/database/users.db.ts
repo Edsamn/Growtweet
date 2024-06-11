@@ -1,3 +1,3 @@
 import {User} from "../model";
 
-export const user: User[] = [];
+export const users: User[] = [];

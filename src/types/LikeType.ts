@@ -1,5 +1,5 @@
 type LikeType = {
-  id: string;
+  id?: string;
 };
 
 export default LikeType;
