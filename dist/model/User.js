@@ -25,8 +25,8 @@ class User {
         };
     }
     createUser(user) {
-        const verifyUser = users_db_1.users.find((user) => user.email === user.getUser().email);
-        if ((verifyUser === null || verifyUser === void 0 ? void 0 : verifyUser.email) === user.email) {
+        const verifyUser = users_db_1.users.find((user) => user.username === user.getUser().username);
+        if ((verifyUser === null || verifyUser === void 0 ? void 0 : verifyUser.username) === user.username) {
             console.log(`O usuário já existe.`);
         }
         else {
@@ -59,10 +59,13 @@ class User {
         }
         else {
             this.following.push(user);
-            console.log("Você agora está seguindo este usuário.");
+            console.log(`Você agora está seguindo ${user.username}.`);
         }
     }
-    showFeed() { }
+    showFeed() {
+        this.showTweets();
+        this.following.map((user) => user.showTweets());
+    }
     showTweets() {
         const userTweets = tweets_db_1.tweets.filter((tweet) => tweet.getTweet().user.username === this.username);
         userTweets.map((userTweet) => {
