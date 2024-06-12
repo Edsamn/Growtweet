@@ -2,6 +2,7 @@ import {TweetType, TypeOfTweetType} from "../types";
 import {v4 as uuid} from "uuid";
 import User from "./User";
 import Like from "./Like";
+import Reply from "./Reply";
 
 class Tweet {
   private id: string;
@@ -27,10 +28,11 @@ class Tweet {
       type: this.type,
       likes: this.likes,
       user: this.user,
+      replies: this.replies,
     };
   }
 
-  reply(tweet: Tweet, content: string) {}
+  reply(reply: Reply, content: string) {}
 
   like(user: User, like: Like) {
     const userWhoLiked = user.getUser().username;
@@ -40,9 +42,17 @@ class Tweet {
     };
   }
 
-  show() {}
+  show() {
+    console.log(`
+      @${this.getTweet().user.username}: ${this.getTweet().content}
+              ${this.getTweet().likes.length}
+              >${this.getTweet().replies}
+      `);
+  }
 
-  showReplies() {}
+  showReplies() {
+    console.log(`${this.getTweet().replies}`);
+  }
 }
 
 export default Tweet;

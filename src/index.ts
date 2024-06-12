@@ -1,4 +1,3 @@
-import {tweets} from "./database/tweets.db";
 import {Like, Tweet, User} from "./model";
 
 const user1 = new User({
@@ -15,7 +14,9 @@ const user2 = new User({
   password: "boraGrowdevers!",
 });
 
-const like = new Like({});
+const like1 = new Like({});
+const like2 = new Like({});
+const like3 = new Like({});
 
 const tweet1 = new Tweet({
   content: "Olá",
@@ -33,8 +34,8 @@ user1.createUser(user1);
 user2.createUser(user2);
 user1.sendTweet(tweet1);
 user2.sendTweet(tweet2);
-tweet1.like(user1, like);
-tweet1.like(user2, like);
+tweet1.like(user1, like1);
+tweet1.like(user2, like2);
 // user1.showTweets();
 user2.follow(user1);
 // user2.showTweets();
