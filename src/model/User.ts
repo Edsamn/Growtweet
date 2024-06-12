@@ -85,12 +85,26 @@ class User {
 
   showTweets() {
     const userTweets = tweets.filter((tweet) => tweet.getTweet().user.username === this.username);
+
     userTweets.map((userTweet) => {
-      console.log(`
-        @${userTweet.user.username}: ${userTweet.content}
-              ${userTweet.likes.length}
-              >${userTweet.replies}
-        `);
+      if (userTweet.likes.length === 0) {
+        console.log(`
+          @${userTweet.user.username}: ${userTweet.content}
+          >${userTweet.showReplies()}
+          `);
+      } else if (userTweet.likes.length === 1) {
+        console.log(`
+          @${userTweet.user.username}: ${userTweet.content}
+          ${userTweet.user.username} curtiu
+          >${userTweet.showReplies()}
+          `);
+      } else if (userTweet.likes.length >= 2) {
+        console.log(`
+          @${userTweet.user.username}: ${userTweet.content}
+                ${userTweet.likes.length}
+                >${userTweet.showReplies()}
+          `);
+      }
     });
   }
 }
