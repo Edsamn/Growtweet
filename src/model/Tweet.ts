@@ -46,9 +46,7 @@ class Tweet {
   }
 
   show() {
-    return {
-      content: this.content,
-    };
+    console.log(`${this.content}`);
   }
 
   showReplies() {

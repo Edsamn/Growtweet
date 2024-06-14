@@ -32,9 +32,7 @@ class Tweet {
         console.log("Tweet curtido.");
     }
     show() {
-        return {
-            content: this.content,
-        };
+        console.log(`${this.content}`);
     }
     showReplies() {
         this.replies.map((reply) => {
