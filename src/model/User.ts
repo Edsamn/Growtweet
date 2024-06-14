@@ -10,7 +10,6 @@ class User {
   username: string;
   private email: string;
   private password: string;
-  followers: User[];
   following: User[];
 
   constructor(data: UserType) {
@@ -19,7 +18,6 @@ class User {
     this.username = data.username;
     this.email = data.email;
     this.password = data.password;
-    this.followers = [];
     this.following = [];
   }
 
@@ -30,7 +28,6 @@ class User {
       username: this.username,
       email: this.email,
       password: this.maskPassword(),
-      followers: this.followers,
       following: this.following,
     };
   }
@@ -66,6 +63,7 @@ class User {
 
   sendTweet(tweet: Tweet) {
     tweets.push(tweet);
+    console.log("Tweet enviado.");
   }
 
   follow(user: User) {
@@ -79,33 +77,37 @@ class User {
 
   showFeed() {
     this.showTweets();
-
-    this.following.map((user) => user.showTweets());
+    this.following.forEach((user) => user.showTweets());
   }
 
   showTweets() {
-    const userTweets = tweets.filter((tweet) => tweet.getTweet().user.username === this.username);
-
-    userTweets.map((userTweet) => {
+    const userTweets = tweets.filter((tweet) => tweet.user.username === this.username);
+    const repliesArray = userTweets.map((userTweet) => userTweet.replies);
+    const likeUsername = userTweets.map((userTweet) => userTweet.getTweet().likes.map((like) => like.getLike().user.username));
+    const firstName = likeUsername.map((username) => username.shift());
+    userTweets.forEach((userTweet) => {
       if (userTweet.likes.length === 0) {
         console.log(`
           @${userTweet.user.username}: ${userTweet.content}
-          >${userTweet.showReplies()}
           `);
       } else if (userTweet.likes.length === 1) {
         console.log(`
           @${userTweet.user.username}: ${userTweet.content}
-          ${userTweet.user.username} curtiu
-          >${userTweet.showReplies()}
+            ${firstName} curtiu.
           `);
-      } else if (userTweet.likes.length >= 2) {
+      } else if (userTweet.likes.length > 1)
         console.log(`
-          @${userTweet.user.username}: ${userTweet.content}
-                ${userTweet.likes.length}
-                >${userTweet.showReplies()}
-          `);
-      }
+        @${userTweet.user.username}: ${userTweet.content}
+            ${firstName} e mais ${userTweet.likes.length - 1} curtiram.    
+        `);
     });
+    repliesArray.map((replies) =>
+      replies.forEach((reply) => {
+        console.log(`
+            >${reply.user.username}: ${reply.content}
+        `);
+      })
+    );
   }
 }
 

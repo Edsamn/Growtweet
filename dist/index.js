@@ -13,7 +13,17 @@ const user2 = new model_1.User({
     email: "marcelo@growdev.com",
     password: "boraGrowdevers!",
 });
-const like = new model_1.Like({});
+const user3 = new model_1.User({
+    name: "Marcele",
+    username: "MarceleGrowdev",
+    email: "marcele@growdev.com",
+    password: "boraDeDaily!",
+});
+// ---------------------------------------------------------------------------
+const like1 = new model_1.Like({ user: user1 });
+const like2 = new model_1.Like({ user: user2 });
+const like3 = new model_1.Like({ user: user3 });
+// ---------------------------------------------------------------------------
 const tweet1 = new model_1.Tweet({
     content: "Olá",
     type: "Normal",
@@ -24,13 +34,55 @@ const tweet2 = new model_1.Tweet({
     type: "Normal",
     user: user2,
 });
+const tweet3 = new model_1.Tweet({
+    content: "Atividade prática hoje!",
+    type: "Normal",
+    user: user3,
+});
+// ---------------------------------------------------------------------------
+const reply1 = new model_1.Reply({
+    content: "Tomara que não seja muito difícil...",
+    type: "Reply",
+    user: user1,
+});
+const reply2 = new model_1.Reply({
+    content: "Fala Ribas!",
+    type: "Reply",
+    user: user2,
+});
+const reply3 = new model_1.Reply({
+    content: "É barbada.",
+    type: "Reply",
+    user: user3,
+});
+// ---------------------------------------------------------------------------
 user1.createUser(user1);
 user2.createUser(user2);
+user3.createUser(user3);
+// ------------------------------------------------------------------------------
 user1.sendTweet(tweet1);
 user2.sendTweet(tweet2);
-tweet1.like(user1, like);
-tweet1.like(user2, like);
-// user1.showTweets();
+user3.sendTweet(tweet3);
+// ---------------------------------------------------------------------------------
+tweet1.like(like3);
+tweet1.like(like2);
+tweet3.like(like1);
+// -------------------------------------------------------------------------------------
+tweet1.reply(reply2);
+tweet2.reply(reply1);
+tweet2.reply(reply3);
+// ---------------------------------------------------------------------------------
+user1.follow(user2);
+user1.follow(user3);
 user2.follow(user1);
-// user2.showTweets();
-user2.showFeed();
+user2.follow(user3);
+user3.follow(user1);
+user3.follow(user2);
+// --------------------------------------------------------------------
+// console.log(tweets);
+// console.log(likes);
+// console.log(replies);
+// console.log(users);
+// ------------------------------------------------------------------------
+console.log("---------------------------------------------------------------------------");
+user1.showFeed();

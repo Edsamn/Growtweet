@@ -11,7 +11,7 @@ class Tweet {
   public content: string;
   private type: TypeOfTweetType;
   likes: Like[];
-  replies: string[];
+  replies: Reply[];
   user: User;
 
   constructor(data: TweetType) {
@@ -35,35 +35,25 @@ class Tweet {
   }
 
   reply(reply: Reply) {
-    const newReply = reply.getReply().content;
-    console.log(`@${reply.getReply().user.username}: ${newReply}`);
-    this.replies.push(newReply);
     replies.push(reply);
+    this.replies.push(reply);
   }
 
-  like(user: User, like: Like) {
-    const userWhoLiked = user.getUser().username;
+  like(like: Like) {
     this.likes.push(like);
     likes.push(like);
-    return {
-      user: userWhoLiked,
-    };
+    console.log("Tweet curtido.");
   }
 
   show() {
-    const showReplies = this.replies.map((reply) => {
-      console.log(`>@${reply}: ${this.getTweet().replies}`);
-    });
-    console.log(`
-      @${this.getTweet().user.username}: ${this.getTweet().content}
-              ${this.getTweet().likes.length}
-              ${showReplies}
-      `);
+    return {
+      content: this.content,
+    };
   }
 
   showReplies() {
     this.replies.map((reply) => {
-      console.log(`>@${reply}: ${this.getTweet().replies}`);
+      console.log(`>@${reply.getReply().user.username}: ${reply.getReply().content}`);
     });
   }
 }
