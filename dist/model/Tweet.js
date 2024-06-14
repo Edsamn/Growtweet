@@ -31,7 +31,11 @@ class Tweet {
         likes_db_1.likes.push(like);
         console.log("Tweet curtido.");
     }
-    show() { }
+    show() {
+        return {
+            content: this.content,
+        };
+    }
     showReplies() {
         this.replies.map((reply) => {
             console.log(`>@${reply.getReply().user.username}: ${reply.getReply().content}`);
